@@ -1,0 +1,20 @@
+<!-- Une page de confirmation de suppression, non utilisée pour à ce jour -->
+
+<%- include ('../pages/header')  %>
+
+<div class="ui positive message">
+    <div class="header">
+      Suppression de votre message effectué avec succes !
+    </div>
+    <p>vous allez etre <b>redirigé</b> vers l'accueil d'ici quelques secondes.</p>
+</div>
+
+<script>
+    setTimeout(function () {
+       // after 3 seconds
+       window.location = "/";
+    }, 3000)
+</script>
+
+
+<%- include ('../pages/footer') %>

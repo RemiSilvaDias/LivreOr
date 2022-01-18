@@ -1,0 +1,35 @@
+<!-- Une page de permettant de voir un seul message apres avoir cliqué dessus -->
+
+<%- include ('../pages/header')  %>
+
+<div class="ui comments">
+
+    <div class="ui grid padded" style="padding: 10px !important;">
+
+        <a href="/message/<%= message.id %>" class="avatar">
+
+            <img class="ui tiny image" src="http://jp59.j.p.pic.centerblog.net/iotp0mix.gif" alt="logo-user">
+        </a>
+
+        <div class="content">
+
+            <div class="metadata">
+
+                <div class="date">
+                    <!-- Utilisation du package 'moment' afin de pouvoir formatter l'heure des messages en fr et comme je le souhaite-->
+                    <%= message.created_at.fromNow() %>
+                    <a href="/delete/<%= message.id %>" class="deleteIcon">
+                    <i class="trash link icon"></i>
+                </a>
+                </div>
+                
+            </div>
+
+            <div class="test"><%= message.content %></div>
+            
+        </div>
+    </div>
+</div>
+
+
+<%- include ('../pages/footer') %>

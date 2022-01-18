@@ -1,0 +1,112 @@
+<%- include ('header') %>
+
+<h1 class="ui center aligned header">Livre d'or</h1>
+
+<form action="/" method="post" class="ui form">
+    <div class="field">
+        <label for="author">Votre nom et prénom (vous pouvez ne rien saisir pour rester anonyme)</label>
+
+        <div class="two fields">
+            <div class="field">
+                <label for="firstname"></label>
+                <input type="text" name="firstname" id="firstname" placeholder="Prénom (facultatif)">
+            </div>
+            <div class="field">
+                <label for="lastname"></label>
+                <input type="text" name="lastname" id="lastname" placeholder="Nom (facultatif)">
+            </div>
+            
+        </div>
+
+        <label for="message">Votre message</label>
+        <textarea name="message" id="message"></textarea>
+    </div>
+
+    <button type="submit" class="ui blue labeled submit icon button">
+        <i class="icon edit"></i>Envoyer
+    </button>
+</form>
+
+<div class="ui comments">
+
+    <h3 class="ui header">Commentaires</h3>
+
+    <!--Boucle for pour afficher tous les messages disponible en bdd-->
+    <% for (message of messages) { %>
+
+        <div class="ui grid padded" style="padding: 10px !important; border-bottom: 1px lightgray solid;">
+
+            <a href="/message/<%= message.id %>" class="avatar">
+                <img class="ui tiny image" src="http://jp59.j.p.pic.centerblog.net/iotp0mix.gif" alt="logo-user">
+            </a>
+
+            <div class="content">
+
+                <div class="metadata">
+                    <div class="author">
+                        <% //console.log(message);
+                        %>
+                        
+                        <% if (message.lastname == null || message.lastname == '' && message.firstname == null || message.firstname == '') { %>
+                            <p>Auteur anonyme </p>
+                            <% console.log(message.lastname);
+                        %>
+                        <% } else { %>
+                            <p> <%= 'Par ' + message.firstname + ' ' + message.lastname + '.' %> </p>
+                        <% } %>
+                    </div>
+
+                    <div class="date">
+                        <%= message.created_at.fromNow() %>
+
+                        <a href="/delete/<%= message.id %>" class="deleteIcon">
+                            <i class="trash link icon"></i>
+                        </a>
+
+                        <a href="/pre-edit/<%= message.id %>" class="editIcon">
+                            <i class="edit icon"></i>
+                        </a>
+
+                    </div>
+
+                    <div class="updatedDate">
+                    <% if (message.updated_at.fromNow() === 'Invalid date') { %>
+
+                   <% } else { %>
+                    
+                        <%='Modifié ' + message.updated_at.fromNow() %>
+
+                   <% } %> 
+                    </div> 
+                </div>
+
+                <!-- condition if pour permettre la generation du formulaire d'édition lorsque l'utilisateur clique sur l'icon 
+                d'édition du message. Je vérifie si la variable locals edit est sur true et je selectionne le bon
+                message en comparant l'id du message parcouru par la boucle for ainsi que l'id envoyé en paramettre depuis server.js -->
+
+                <% if (locals.edit === true && message.id == locals.id ) { %>
+                    
+                    
+                    <form action="/edit/<%= message.id %>" method="post" class="ui form">
+                        <div class="field">
+                            <label for="editMessage">Edition de votre message</label>
+                    
+                            <textarea name="message" id="message"><%= message.content %></textarea>
+                        </div>
+                    
+                        <button type="submit" class="ui blue labeled submit icon button">
+                            <i class="icon edit"></i>Modifier
+                        </button>
+                    </form>
+
+                <% } else { %>
+                    <div class="test"> <%= message.content %></div>
+                <% } %>  
+                
+            </div>
+        </div>
+        <% } %>
+</div>
+
+
+<%- include ('footer') %>
